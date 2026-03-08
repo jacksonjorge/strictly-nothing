@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>strictly-nothing — buy nothing</title>
+
+  <!-- SEO & Social Sharing -->
+  <meta name="description" content="Can something be nothing? Or can nothing be something? Buy nothing. Literally."/>
+  <meta property="og:title" content="strictly-nothing — buy nothing"/>
+  <meta property="og:description" content="You pay. You receive nothing. No box. No email. No receipt. Just nothing. Strictly."/>
+  <meta property="og:url" content="https://strictly-nothing.com"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="https://strictly-nothing.com/og-image.png"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="strictly-nothing — buy nothing"/>
+  <meta name="twitter:description" content="You pay. You receive nothing. Strictly."/>
+
+  <!-- Favicon: an empty square -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='5' y='5' width='90' height='90' fill='none' stroke='black' stroke-width='6'/></svg>"/>
+
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white: #ffffff;
+      --black: #0a0a0a;
+      --grey: #e8e8e8;
+      --mid: #999;
+      --faint: #f5f5f5;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    html, body {
+      background: var(--white);
+      color: var(--black);
+      font-family: 'DM Mono', monospace;
+      min-height: 100vh;
+      cursor: default;
+    }
+
+    ::selection {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem 3rem;
+      border-bottom: 1px solid var(--grey);
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      z-index: 50;
+    }
+
+    .logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--mid);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--black); }
+
+    /* HERO */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 8rem 2rem 6rem;
+      text-align: center;
+      gap: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: 'NOTHING NOTHING NOTHING NOTHING NOTHING NOTHING NOTHING NOTHING NOTHING NOTHING NOTHING NOTHING NOTHING NOTHING';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 8rem;
+      font-family: 'DM Serif Display', serif;
+      color: var(--faint);
+      white-space: nowrap;
+      pointer-events: none;
+      letter-spacing: 0.1em;
+      line-height: 1;
+      width: 300%;
+      text-align: center;
+      word-spacing: 2rem;
+    }
+
+    .hero-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mid);
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.1s;
+      position: relative;
+    }
+
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(5rem, 15vw, 12rem);
+      line-height: 0.9;
+      letter-spacing: -0.04em;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.3s;
+      position: relative;
+    }
+
+    .hero-sub {
+      font-size: 0.8rem;
+      color: var(--mid);
+      letter-spacing: 0.05em;
+      max-width: 400px;
+      line-height: 1.8;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.5s;
+      position: relative;
+    }
+
+    /* TICKER */
+    .ticker-wrap {
+      overflow: hidden;
+      border-top: 1px solid var(--grey);
+      border-bottom: 1px solid var(--grey);
+      padding: 1rem 0;
+      background: var(--faint);
+    }
+
+    .ticker {
+      display: flex;
+      gap: 3rem;
+      animation: scroll 20s linear infinite;
+      white-space: nowrap;
+      width: max-content;
+    }
+
+    .ticker span {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--mid);
+    }
+
+    .ticker span::before {
+      content: '◾';
+      margin-right: 1.5rem;
+      opacity: 0.3;
+    }
+
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* DIVIDER */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--grey);
+    }
+
+    /* PRODUCTS */
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .product {
+      padding: 3.5rem 3rem;
+      border-right: 1px solid var(--grey);
+      border-bottom: 1px solid var(--grey);
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      transition: background 0.3s;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    .product:nth-child(1) { animation-delay: 0.6s; }
+    .product:nth-child(2) { animation-delay: 0.75s; }
+    .product:nth-child(3) { animation-delay: 0.9s; }
+    .product:nth-child(4) { animation-delay: 1.05s; }
+
+    .product:hover { background: var(--faint); }
+    .product:last-child { border-right: none; }
+
+    /* INTENTIONAL PRODUCT VISUALS */
+    .product-visual {
+      width: 100%;
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--grey);
+    }
+
+    /* Product 1: Pure white void */
+    .visual-nothing {
+      background: var(--white);
+    }
+    .visual-nothing::after {
+      content: '';
+      width: 1px;
+      height: 1px;
+      background: var(--grey);
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    /* Product 2: Certificate outline */
+    .visual-cert {
+      background: var(--white);
+    }
+    .visual-cert .cert-inner {
+      width: 65%;
+      height: 75%;
+      border: 1px solid var(--grey);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 1.5rem;
+    }
+    .cert-inner .cert-line {
+      width: 60%;
+      height: 1px;
+      background: var(--grey);
+    }
+    .cert-inner .cert-line.short { width: 35%; }
+    .cert-inner .cert-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid var(--grey);
+      margin-top: 0.5rem;
+    }
+
+    /* Product 3: Empty box outline */
+    .visual-box {
+      background: var(--white);
+    }
+    .visual-box .box-shape {
+      width: 50%;
+      height: 50%;
+      border: 1px dashed var(--grey);
+      position: relative;
+    }
+    .visual-box .box-shape::before {
+      content: '';
+      position: absolute;
+      top: -12px;
+      left: -6px;
+      right: -6px;
+      height: 12px;
+      border: 1px dashed var(--grey);
+      border-bottom: none;
+      transform: perspective(300px) rotateX(20deg);
+    }
+    .visual-box .box-flap {
+      position: absolute;
+      top: -22px;
+      left: 50%;
+      transform: translateX(-50%) perspective(200px) rotateX(50deg);
+      width: 45%;
+      height: 20px;
+      border: 1px dashed var(--grey);
+      border-bottom: none;
+    }
+
+    /* Product 4: Blank t-shirt silhouette */
+    .visual-tee {
+      background: var(--white);
+    }
+    .tee-outline {
+      width: 55%;
+      height: 65%;
+      position: relative;
+    }
+    .tee-outline svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .product-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.6rem;
+      letter-spacing: -0.02em;
+    }
+
+    .cert-name-input {
+      margin-top: -0.5rem;
+    }
+
+    .cert-name-input input {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      border: 1px solid var(--grey);
+      outline: none;
+      background: var(--white);
+      letter-spacing: 0.02em;
+      transition: border-color 0.2s;
+    }
+
+    .cert-name-input input:focus {
+      border-color: var(--black);
+    }
+
+    .cert-name-input input::placeholder {
+      color: #ccc;
+    }
+
+    .cert-name-input input.error {
+      border-color: #cc0000;
+    }
+
+    .product-desc {
+      font-size: 0.72rem;
+      color: var(--mid);
+      line-height: 1.9;
+      letter-spacing: 0.02em;
+      flex: 1;
+    }
+
+    .product-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1rem;
+      border-top: 1px solid var(--grey);
+    }
+
+    .product-price {
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+    }
+
+    .buy-btn {
+      display: inline-block;
+      text-decoration: none;
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      padding: 0.65rem 1.4rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .buy-btn:hover { background: #333; }
+    .buy-btn:active { transform: scale(0.97); }
+
+
+
+    /* REVIEWS */
+    .reviews {
+      border-top: 1px solid var(--grey);
+    }
+
+    .reviews-header {
+      padding: 3rem 3rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .reviews-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      letter-spacing: -0.02em;
+    }
+
+    .reviews-avg {
+      font-size: 0.75rem;
+      color: var(--mid);
+      letter-spacing: 0.05em;
+    }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      padding: 2rem 3rem 3rem;
+      gap: 0;
+    }
+
+    .review {
+      padding: 2rem;
+      border: 1px solid var(--grey);
+      margin: -0.5px;
+      transition: background 0.2s;
+    }
+
+    .review:hover { background: var(--faint); }
+
+    .review-stars {
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      color: var(--black);
+      margin-bottom: 1rem;
+    }
+
+    .review-text {
+      font-size: 0.75rem;
+      color: var(--mid);
+      line-height: 1.8;
+      font-style: italic;
+      margin-bottom: 1.2rem;
+    }
+
+    .review-author {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--mid);
+    }
+
+    .review-product {
+      font-size: 0.6rem;
+      color: var(--grey);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 0.3rem;
+    }
+
+    /* FAQ */
+    .faq {
+      padding: 4rem 3rem;
+      border-top: 1px solid var(--grey);
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .faq-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      letter-spacing: -0.02em;
+      margin-bottom: 2.5rem;
+      text-align: center;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--grey);
+      padding: 1.5rem 0;
+    }
+
+    .faq-q {
+      font-size: 0.8rem;
+      letter-spacing: 0.02em;
+      margin-bottom: 0.8rem;
+    }
+
+    .faq-a {
+      font-size: 0.72rem;
+      color: var(--mid);
+      line-height: 1.8;
+      letter-spacing: 0.02em;
+    }
+
+    /* MOTTO */
+    .motto {
+      padding: 6rem 3rem;
+      text-align: center;
+      border-top: 1px solid var(--grey);
+    }
+
+    .motto p {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.5rem, 4vw, 3rem);
+      letter-spacing: -0.02em;
+      color: var(--mid);
+      font-style: italic;
+    }
+
+    .motto span { color: var(--black); }
+
+    /* FOOTER */
+    footer {
+      padding: 2rem 3rem;
+      border-top: 1px solid var(--grey);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer p {
+      font-size: 0.7rem;
+      color: var(--mid);
+      letter-spacing: 0.05em;
+    }
+
+    footer a {
+      color: var(--mid);
+      text-decoration: none;
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+
+    footer a:hover { color: var(--black); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* MOBILE */
+    @media (max-width: 600px) {
+      nav { padding: 1.5rem; }
+      .nav-links { display: none; }
+      .hero { padding: 5rem 1.5rem 4rem; }
+      .product { border-right: none; }
+      .reviews-header { flex-direction: column; gap: 0.5rem; padding: 2rem 1.5rem 0; }
+      .reviews-grid { padding: 1.5rem; }
+      .faq { padding: 3rem 1.5rem; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <span class="logo">strictly-nothing</span>
+    <ul class="nav-links">
+      <li><a href="#shop">Shop</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="https://instagram.com/strictly.nothing" target="_blank">Instagram</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <p class="hero-label">Est. 2026 — strictly-nothing.com</p>
+    <h1>Nothing.</h1>
+    <p class="hero-sub">Can something be nothing? Or can nothing be something?</p>
+  </section>
+
+  <!-- Scrolling ticker -->
+  <div class="ticker-wrap">
+    <div class="ticker">
+      <span>Free shipping on nothing</span>
+      <span>0% materials used</span>
+      <span>100% satisfaction guaranteed</span>
+      <span>Eco-friendly by default</span>
+      <span>Zero carbon footprint</span>
+      <span>As seen nowhere</span>
+      <span>No returns necessary</span>
+      <span>Nothing sold worldwide</span>
+      <span>Free shipping on nothing</span>
+      <span>0% materials used</span>
+      <span>100% satisfaction guaranteed</span>
+      <span>Eco-friendly by default</span>
+      <span>Zero carbon footprint</span>
+      <span>As seen nowhere</span>
+      <span>No returns necessary</span>
+      <span>Nothing sold worldwide</span>
+    </div>
+  </div>
+
+  <section class="products" id="shop">
+
+    <div class="product">
+      <div class="product-visual visual-nothing"></div>
+      <div class="product-name">Nothing</div>
+      <div class="product-desc">Exactly what it says. You pay. You receive nothing. No box. No email. No receipt. Just nothing. Strictly.</div>
+      <div class="product-footer">
+        <span class="product-price">$4.99</span>
+        <a class="buy-btn" href="https://buy.stripe.com/cNi7sE8Wn6aHc5AafzaZi00" target="_blank">Buy</a>
+      </div>
+    </div>
+
+    <div class="product">
+      <div class="product-visual visual-cert">
+        <div class="cert-inner">
+          <div class="cert-line"></div>
+          <div class="cert-line short"></div>
+          <div class="cert-line"></div>
+          <div class="cert-line short"></div>
+          <div class="cert-circle"></div>
+        </div>
+      </div>
+      <div class="product-name">Certificate of Nothing</div>
+      <div class="product-desc">An official, signed certificate confirming you own nothing. Delivered digitally. Because even nothing deserves documentation.</div>
+      <div class="cert-name-input">
+        <input type="text" id="certNameInput" placeholder="Enter your name" maxlength="40" autocomplete="off"/>
+      </div>
+      <div class="product-footer">
+        <span class="product-price">$9.99</span>
+        <button class="buy-btn" id="certBuyBtn" onclick="buyCertificate()">Buy</button>
+      </div>
+    </div>
+
+    <div class="product">
+      <div class="product-visual visual-box">
+        <div class="box-shape">
+          <div class="box-flap"></div>
+        </div>
+      </div>
+      <div class="product-name">Empty Box</div>
+      <div class="product-desc">A cardboard box. Empty. Nothing inside. Ships in 3–5 business days.</div>
+      <div class="product-footer">
+        <span class="product-price">$14.99</span>
+        <a class="buy-btn" href="https://buy.stripe.com/eVqcMYgoP9mT7PkgDXaZi02" target="_blank">Buy</a>
+      </div>
+    </div>
+
+    <div class="product">
+      <div class="product-visual visual-tee">
+        <div class="tee-outline">
+          <svg viewBox="0 0 120 140" fill="none" stroke="#e0e0e0" stroke-width="1">
+            <path d="M35,0 L15,15 L0,35 L18,42 L25,25 L25,140 L95,140 L95,25 L102,42 L120,35 L105,15 L85,0 L72,12 C65,18 55,18 48,12 Z"/>
+          </svg>
+        </div>
+      </div>
+      <div class="product-name">White T-Shirt</div>
+      <div class="product-desc">100% cotton. No logo. No design. No message. Just a white shirt. Wearing nothing has never looked so good.</div>
+      <div class="product-footer">
+        <span class="product-price">$24.99</span>
+        <a class="buy-btn" href="https://buy.stripe.com/4gM8wIdcDgPlglQ4VfaZi03" target="_blank">Buy</a>
+      </div>
+    </div>
+
+  </section>
+
+
+
+  <!-- Reviews -->
+  <section class="reviews" id="reviews">
+    <div class="reviews-header">
+      <div class="reviews-title">What People Received</div>
+      <div class="reviews-avg">★★★★★ 5.0 avg — based on nothing</div>
+    </div>
+    <div class="reviews-grid">
+      <div class="review">
+        <div class="review-stars">★ ★ ★ ★ ★</div>
+        <div class="review-text">"I got exactly what I paid for. Nothing. 5 stars."</div>
+        <div class="review-author">— Tyler M.</div>
+        <div class="review-product">Purchased: Nothing</div>
+      </div>
+      <div class="review">
+        <div class="review-stars">★ ★ ★ ★ ★</div>
+        <div class="review-text">"Opened the box. It was empty. Genuinely moved."</div>
+        <div class="review-author">— Sarah K.</div>
+        <div class="review-product">Purchased: Empty Box</div>
+      </div>
+      <div class="review">
+        <div class="review-stars">★ ★ ★ ★ ★</div>
+        <div class="review-text">"I framed my Certificate of Nothing. It's the most honest thing on my wall."</div>
+        <div class="review-author">— James R.</div>
+        <div class="review-product">Purchased: Certificate of Nothing</div>
+      </div>
+      <div class="review">
+        <div class="review-stars">★ ★ ★ ★ ★</div>
+        <div class="review-text">"Bought this for my friend's birthday. He's never been more confused. Perfect."</div>
+        <div class="review-author">— Lena D.</div>
+        <div class="review-product">Purchased: Nothing</div>
+      </div>
+      <div class="review">
+        <div class="review-stars">★ ★ ★ ★ ★</div>
+        <div class="review-text">"The shirt is just a white shirt. They weren't lying. Respect."</div>
+        <div class="review-author">— Marcus W.</div>
+        <div class="review-product">Purchased: White T-Shirt</div>
+      </div>
+      <div class="review">
+        <div class="review-stars">★ ★ ★ ★ ★</div>
+        <div class="review-text">"Fastest delivery of nothing I've ever experienced. Instant."</div>
+        <div class="review-author">— Priya N.</div>
+        <div class="review-product">Purchased: Nothing</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq" id="faq">
+    <div class="faq-title">Frequently Asked Questions</div>
+
+    <div class="faq-item">
+      <div class="faq-q">Q: What do I get?</div>
+      <div class="faq-a">Nothing.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Q: Is this a scam?</div>
+      <div class="faq-a">No. A scam promises something and delivers nothing. We promise nothing and deliver nothing. That's integrity.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Q: Can I get a refund?</div>
+      <div class="faq-a">A refund for what? You received exactly what you ordered.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Q: Why would anyone buy this?</div>
+      <div class="faq-a">Why does anyone do anything? Existential questions are not covered under our FAQ.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Q: Is the empty box really empty?</div>
+      <div class="faq-a">Yes. We inspected it twice. Nothing.</div>
+    </div>
+  </section>
+
+  <section class="motto" id="about">
+    <p>Can <span>Something</span> be Nothing?<br>Or can <span>Nothing</span> be Something?</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 strictly-nothing.com</p>
+    <a href="https://instagram.com/strictly.nothing" target="_blank">@strictly.nothing</a>
+  </footer>
+
+
+
+  <script>
+    function buyCertificate() {
+      const nameInput = document.getElementById('certNameInput');
+      const name = nameInput.value.trim();
+      if (!name) {
+        nameInput.classList.add('error');
+        nameInput.placeholder = 'Please enter your name first';
+        setTimeout(() => {
+          nameInput.classList.remove('error');
+          nameInput.placeholder = 'Enter your name';
+        }, 2000);
+        return;
+      }
+      localStorage.setItem('certName', name);
+      window.open('https://buy.stripe.com/14AbIU0pRcz5d9E5ZjaZi01', '_blank');
+    }
+  </script>
+
+</body>
+</html>
